@@ -362,11 +362,11 @@ class Karaoke:
                         "No IP found. Network/Wifi configuration required. For wifi config, try: sudo raspi-config or the desktop GUI: startx"
                     )
                     self.stop()
-                else:
-                    text = self.font.render(
-                        "Connect at: " + self.url, True, (255, 255, 255)
-                    )
-                    self.screen.blit(text, (p_image.get_width() + 35, blitY))
+                # else:
+                #     text = self.font.render(
+                #         "Connect at: " + self.url, True, (255, 255, 255)
+                #     )
+                #     self.screen.blit(text, (p_image.get_width() + 35, blitY))
 
             if not self.hide_raspiwifi_instructions and (
                 self.raspi_wifi_config_installed
@@ -406,11 +406,11 @@ class Karaoke:
                 next_user = self.queue[0]["user"]
                 font_next_song = pygame.font.SysFont(pygame.font.get_default_font(), 60)
                 text = font_next_song.render(
-                    "Up next: %s" % (unidecode(next_song)), True, (0, 128, 0)
+                    "Próximo: %s" % (unidecode(next_song)), True, (0, 128, 0)
                 )
-                up_next = font_next_song.render("Up next:  " , True, (255, 255, 0))
+                up_next = font_next_song.render("Próximo:  " , True, (255, 255, 0))
                 font_user_name = pygame.font.SysFont(pygame.font.get_default_font(), 50)
-                user_name = font_user_name.render("Added by: %s " % next_user, True, (255, 120, 0))
+                user_name = font_user_name.render("Adicionado por: %s " % next_user, True, (255, 120, 0))
                 x = self.width - text.get_width() - 10
                 y = 5
                 self.screen.blit(text, (x, y))
