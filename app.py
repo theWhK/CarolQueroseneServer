@@ -344,15 +344,15 @@ def download():
     t.start()
 
     flash_message = (
-        "Download started: '"
+        "Carregamento iniciado: '"
         + song
-        + "'. This may take a couple of minutes to complete. "
+        + "'. Aguarde um tempo para que o download conclua. "
     )
 
     if queue:
-        flash_message += "Song will be added to queue."
+        flash_message += "A música será adicionada na fila."
     else:
-        flash_message += 'Song will appear in the "available songs" list.'
+        flash_message += 'A música será inserida na lista de "Músicas Disponíveis".'
     flash(flash_message, "is-info")
     return redirect(url_for("search"))
 
@@ -371,21 +371,21 @@ def delete_file():
         song_path = request.args["song"]
         if song_path in k.queue:
             flash(
-                "Error: Can't delete this song because it is in the current queue: "
+                "Erro: essa música não pode ser apagada pois está na fila atual: "
                 + song_path,
                 "is-danger",
             )
         else:
             k.delete(song_path)
-            flash("Song deleted: " + song_path, "is-warning")
+            flash("Música apagada: " + song_path, "is-warning")
     else:
-        flash("Error: No song parameter specified!", "is-danger")
+        flash("Erro: nenhuma música especificada.", "is-danger")
     return redirect(url_for("browse"))
 
 
 @app.route("/files/edit", methods=["GET", "POST"])
 def edit_file():
-    queue_error_msg = "Error: Can't edit this song because it is in the current queue: "
+    queue_error_msg = "Erro: essa música não pode ser editada pois está na fila atual: "
     if "song" in request.args:
         song_path = request.args["song"]
         # print "SONG_PATH" + song_path
@@ -414,14 +414,14 @@ def edit_file():
                     os.path.join(k.download_path, new_name + file_extension)
                 ):
                     flash(
-                        "Error Renaming file: '%s' to '%s'. Filename already exists."
+                        "Erro ao renomear o arquivo: '%s' to '%s'. O nome do arquivo já existe."
                         % (old_name, new_name + file_extension),
                         "is-danger",
                     )
                 else:
                     k.rename(old_name, new_name)
                     flash(
-                        "Renamed file: '%s' to '%s'." % (old_name, new_name),
+                        "Arquivo renomeado: '%s' to '%s'." % (old_name, new_name),
                         "is-warning",
                     )
         else:
