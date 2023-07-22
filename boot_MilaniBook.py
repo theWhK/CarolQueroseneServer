@@ -1,0 +1,1 @@
+python app.py --admin-password DuasIrmas -s 10
