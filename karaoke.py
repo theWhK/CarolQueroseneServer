@@ -362,11 +362,12 @@ class Karaoke:
                         "No IP found. Network/Wifi configuration required. For wifi config, try: sudo raspi-config or the desktop GUI: startx"
                     )
                     self.stop()
-                # else:
-                #     text = self.font.render(
-                #         "Connect at: " + self.url, True, (255, 255, 255)
-                #     )
-                #     self.screen.blit(text, (p_image.get_width() + 35, blitY))
+                else:
+                    # text = self.font.render(
+                    #     "Connect at: " + self.url, True, (255, 255, 255)
+                    # )
+                    text = self.font.render("Conecte no Wi-Fi do salão e entre em carolquerosene.com.br")
+                    self.screen.blit(text, (p_image.get_width() + 35, blitY))
 
             if not self.hide_raspiwifi_instructions and (
                 self.raspi_wifi_config_installed
