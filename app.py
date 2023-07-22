@@ -37,7 +37,7 @@ app.secret_key = os.urandom(24)
 app.jinja_env.add_extension('jinja2.ext.i18n')
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
 babel = Babel(app)
-site_name = "PiKaraoke"
+site_name = "Carol Querosene"
 admin_password = None
 
 def filename_from_path(file_path, remove_youtube_id=True):
