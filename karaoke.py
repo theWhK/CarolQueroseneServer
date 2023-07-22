@@ -101,8 +101,8 @@ class Karaoke:
         if self.control_spotify_playback:
             self.spotipy_client = spotipy.Spotify(
                 auth_manager=SpotifyOAuth(
-                    client_id=os.getenv("SPOTIFY_WEB_API_CLIENT_ID"),
-                    client_secret=os.getenv("SPOTIFY_WEB_API_CLIENT_SECRET"),
+                    client_id=os.environ.get('SPOTIFY_WEB_API_CLIENT_ID')
+                    client_secret=os.environ.get('SPOTIFY_WEB_API_CLIENT_SECRET'),
                     redirect_uri="www.carolquerosene.com.br",
                     scope="user-modify-playback-state"
                 )
