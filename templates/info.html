@@ -71,7 +71,9 @@
   <img id="qr-img" width="300px" src="{{ url_for('qrcode') }}" style="image-rendering: pixelated" />
 
   {# MSG: Label before a link to the Splash screen. #}
+  {% if admin %}
   <p><a href="{{ url_for('splash') }}">{% trans %}Open splash screen{% endtrans %}</a></p>
+  {% endif %}
   </div>
 
 <hr />

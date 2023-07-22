@@ -775,6 +775,12 @@ if __name__ == "__main__":
         action="store_true",
         required=False,
     ),
+    parser.add_argument(
+        "--control-spotify-playback",
+        help="Control Spotify playback via the web UI. Requires a Spotify Premium account and a Spotify API client ID and secret. See README.md for more info.",
+        default=False,
+        required=False,
+    )
     args = parser.parse_args()
 
     if (args.admin_password):
@@ -837,7 +843,8 @@ if __name__ == "__main__":
         vlc_path=args.vlc_path,
         vlc_port=args.vlc_port,
         logo_path=args.logo_path,
-        show_overlay=args.show_overlay
+        show_overlay=args.show_overlay,
+        control_spotify_playback=args.control_spotify_playback,
     )
 
     if (args.developer_mode):

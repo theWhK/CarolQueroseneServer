@@ -15,6 +15,8 @@ from subprocess import CalledProcessError, check_output
 
 import pygame
 import qrcode
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
 from unidecode import unidecode
 
 from lib import omxclient, vlcclient
@@ -43,6 +45,7 @@ class Karaoke:
     volume_offset = 0
     loop_interval = 500  # in milliseconds
     default_logo_path = os.path.join(base_path, "logo.png")
+    spotipy_client = None
 
     def __init__(
         self,
@@ -64,7 +67,8 @@ class Karaoke:
         vlc_path=None,
         vlc_port=None,
         logo_path=None,
-        show_overlay=False
+        show_overlay=False,
+        control_spotify_playback=False,
     ):
 
         # override with supplied constructor args if provided
@@ -86,12 +90,25 @@ class Karaoke:
         self.vlc_port = vlc_port
         self.logo_path = self.default_logo_path if logo_path == None else logo_path
         self.show_overlay = show_overlay
+        self.control_spotify_playback = control_spotify_playback
 
         # other initializations
         self.platform = get_platform()
         self.vlcclient = None
         self.omxclient = None
         self.screen = None
+
+        if self.control_spotify_playback:
+            self.spotipy_client = spotipy.Spotify(
+                auth_manager=SpotifyOAuth(
+                    client_id=os.getenv("SPOTIFY_WEB_API_CLIENT_ID"),
+                    client_secret=os.getenv("SPOTIFY_WEB_API_CLIENT_SECRET"),
+                    redirect_uri="www.carolquerosene.com.br",
+                    scope="user-modify-playback-state"
+                )
+            )
+        else:
+            self.spotipy_client = None
 
         logging.basicConfig(
             format="[%(asctime)s] %(levelname)s: %(message)s",
@@ -119,7 +136,8 @@ class Karaoke:
     VLC path: %s
     VLC port: %s
     log_level: %s
-    show overlay: %s"""
+    show overlay: %s
+    control spotify playback: %s"""
             % (
                 self.port,
                 self.hide_ip,
@@ -139,7 +157,8 @@ class Karaoke:
                 self.vlc_path,
                 self.vlc_port,
                 log_level,
-                self.show_overlay
+                self.show_overlay,
+                self.control_spotify_playback,
             )
         )
 
@@ -403,6 +422,8 @@ class Karaoke:
         if not self.hide_splash_screen:
             self.render_splash_screen()
             if len(self.queue) >= 1:
+                if self.control_spotify_playback:
+                    self.pause_spotify()
                 logging.debug("Rendering next song to splash screen")
                 next_song = self.queue[0]["title"]
                 max_length = 60
@@ -449,6 +470,14 @@ class Karaoke:
 
     def get_karaoke_search_results(self, songTitle):
         return self.get_search_results(songTitle + " karaoke")
+    
+    def resume_spotify(self):
+        logging.info("Resuming Spotify playback")
+        self.spotipy_client.start_playback()
+
+    def pause_spotify(self):
+        logging.info("Pausing Spotify playback")
+        self.spotipy_client.pause_playback()
 
     def download_video(self, video_url, enqueue=False, user="Pikaraoke"):
         logging.info("Downloading video: " + video_url)
@@ -559,6 +588,9 @@ class Karaoke:
         else:
             logging.info("Playing video in omxplayer: " + self.now_playing)
             self.omxclient.play_file(file_path)
+
+        if self.control_spotify_playback:
+            self.pause_spotify()
 
         self.is_paused = False
         self.render_splash_screen()  # remove old previous track
@@ -691,7 +723,15 @@ class Karaoke:
                     self.omxclient.pause()
                 else:
                     self.omxclient.play()
+
             self.is_paused = not self.is_paused
+
+            if self.control_spotify_playback:
+                if self.is_paused:
+                    self.resume_spotify()
+                else:
+                    self.pause_spotify()
+
             return True
         else:
             logging.warning("Tried to pause, but no file is playing!")
@@ -726,6 +766,8 @@ class Karaoke:
             else:
                 self.omxclient.restart()
             self.is_paused = False
+            if self.control_spotify_playback:
+                self.pause_spotify()
             return True
         else:
             logging.warning("Tried to restart, but no file is playing!")
