@@ -9,6 +9,7 @@ import sys
 import threading
 import time
 from functools import wraps
+from dotenv import load_dotenv
 
 import cherrypy
 import flask_babel
@@ -31,6 +32,7 @@ except ImportError:
 
 _ = flask_babel.gettext
 
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
