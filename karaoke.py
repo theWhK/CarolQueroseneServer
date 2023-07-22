@@ -99,14 +99,10 @@ class Karaoke:
         self.screen = None
 
         if self.control_spotify_playback:
-            self.spotipy_client = spotipy.Spotify(
-                auth_manager=SpotifyOAuth(
-                    client_id=os.environ.get('SPOTIFY_WEB_API_CLIENT_ID')
-                    client_secret=os.environ.get('SPOTIFY_WEB_API_CLIENT_SECRET'),
-                    redirect_uri="www.carolquerosene.com.br",
-                    scope="user-modify-playback-state"
-                )
-            )
+            self.spotipy_client = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get('SPOTIFY_WEB_API_CLIENT_ID'),
+                                                                            client_secret=os.environ.get('SPOTIFY_WEB_API_CLIENT_SECRET'),
+                                                                            redirect_uri="www.carolquerosene.com.br",
+                                                                            scope="user-modify-playback-state"))
         else:
             self.spotipy_client = None
 
