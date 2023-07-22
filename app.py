@@ -778,7 +778,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--control-spotify-playback",
         help="Control Spotify playback via the web UI. Requires a Spotify Premium account and a Spotify API client ID and secret. See README.md for more info.",
-        default=False,
+        action="store_true",
         required=False,
     )
     args = parser.parse_args()
