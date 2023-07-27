@@ -102,7 +102,10 @@ def auth():
 
 @app.route("/login")
 def login():
-    return render_template("login.html")
+    return render_template(
+        "login.html",
+        admin=is_admin()
+    )
 
 @app.route("/logout")
 def logout():
@@ -137,7 +140,11 @@ def nowplaying():
 @app.route("/queue")
 def queue():
     return render_template(
-        "queue.html", queue=k.queue, site_title=site_name, title="Queue", admin=is_admin()
+        "queue.html",
+        queue=k.queue,
+        site_title=site_name,
+        title="Queue",
+        admin=is_admin()
     )
 
 @app.route("/get_queue")
@@ -265,6 +272,7 @@ def search():
         songs=k.available_songs,
         search_results=search_results,
         search_string=search_string,
+        admin=is_admin()
     )
 
 @app.route("/autocomplete")
@@ -398,6 +406,7 @@ def edit_file():
                 site_title=site_name,
                 title="Song File Edit",
                 song=song_path.encode("utf-8"),
+                admin=is_admin()
             )
     else:
         d = request.form.to_dict()
