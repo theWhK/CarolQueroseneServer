@@ -525,7 +525,7 @@ def update_ytdl():
         th = threading.Thread(target=update_youtube_dl)
         th.start()
     else:
-        flash("You don't have permission to update youtube-dl", "is-danger")
+        flash("Você não tem permissão para essa ação.", "is-danger")
     return redirect(url_for("home"))
 
 @app.route("/refresh")
@@ -533,17 +533,17 @@ def refresh():
     if (is_admin()):
         k.get_available_songs()
     else:
-        flash("You don't have permission to shut down", "is-danger")
+        flash("Você não tem permissão para essa ação.", "is-danger")
     return redirect(url_for("browse"))
 
 @app.route("/quit")
 def quit():
     if (is_admin()):
-        flash("Quitting pikaraoke now!", "is-warning")
+        flash("Fechando o servidor do Carol Querosene...", "is-warning")
         th = threading.Thread(target=delayed_halt, args=[0])
         th.start()
     else:
-        flash("You don't have permission to quit", "is-danger")
+        flash("Você não tem permissão para essa ação.", "is-danger")
     return redirect(url_for("home"))
 
 
@@ -554,7 +554,7 @@ def shutdown():
         th = threading.Thread(target=delayed_halt, args=[1])
         th.start()
     else:
-        flash("You don't have permission to shut down", "is-danger")
+        flash("Você não tem permissão para essa ação.", "is-danger")
     return redirect(url_for("home"))
 
 
@@ -565,7 +565,7 @@ def reboot():
         th = threading.Thread(target=delayed_halt, args=[2])
         th.start()
     else:
-        flash("You don't have permission to Reboot", "is-danger")
+        flash("Você não tem permissão para essa ação.", "is-danger")
     return redirect(url_for("home"))
 
 @app.route("/expand_fs")
@@ -577,7 +577,7 @@ def expand_fs():
     elif (platform != "raspberry_pi"):
         flash("Cannot expand fs on non-raspberry pi devices!", "is-danger")
     else:
-        flash("You don't have permission to resize the filesystem", "is-danger")
+        flash("Você não tem permissão para essa ação.", "is-danger")
     return redirect(url_for("home"))
 
 
