@@ -142,13 +142,13 @@
 </p>
 <ul>
   {# MSG: Text for button which turns off Pikaraoke for everyone using it at your house. #}
-  <li><a id="quit-link" href="{{ url_for('quit') }}">{% trans %}Quit Pikaraoke{% endtrans %}</a></li>
+  <li><a id="quit-link" href="{{ url_for('quit') }}">Desligar o servidor</a></li>
   {% if is_pi %}
     {# MSG: Text for button which reboots the machine running Pikaraoke. #}
-    <li><a id="restart-link" href="{{ url_for('reboot') }}">{% trans %}Reboot System{% endtrans %}</a></li>
+    <li><a id="restart-link" href="{{ url_for('reboot') }}">Reiniciar o servidor</a></li>
     <li>
       {# MSG: Text for button which turn soff the machine running Pikaraoke. #}
-      <a id="shutdown-link" href="{{ url_for('shutdown') }}">{% trans %}Shutdown System{% endtrans %}</a>
+      <a id="shutdown-link" href="{{ url_for('shutdown') }}">Desligar o servidor</a>
     </li>
   {% endif %}
 </ul>
