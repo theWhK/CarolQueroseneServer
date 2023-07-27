@@ -851,7 +851,7 @@ class Karaoke:
                 elif not pygame.display.get_active() and not self.is_file_playing():
                     self.pygame_reset_screen()
 
-                if len(self.queue) == 0:
+                if len(self.queue) == 0 and not self.is_file_playing():
                     self.resume_spotify()
 
                 self.handle_run_loop()
