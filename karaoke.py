@@ -647,7 +647,7 @@ class Karaoke:
             if self.is_song_in_queue(songs[r]):
                 logging.warn("Song already in queue, trying another... " + songs[r])
             else:
-                self.queue.append({"user": "Randomizer", "file": songs[r], "title": self.filename_from_path(songs[r])})
+                self.queue.append({"user": "CarolSystem", "file": songs[r], "title": self.filename_from_path(songs[r])})
                 i += 1
             songs.pop(r)
             if len(songs) == 0:
@@ -821,6 +821,7 @@ class Karaoke:
             try:
                 if not self.is_file_playing() and self.now_playing != None:
                     self.reset_now_playing()
+
                 if len(self.queue) > 0:
                     if not self.is_file_playing():
                         self.reset_now_playing()
@@ -836,7 +837,12 @@ class Karaoke:
                         self.queue.pop(0)
                 elif not pygame.display.get_active() and not self.is_file_playing():
                     self.pygame_reset_screen()
+
+                if len(self.queue) == 0:
+                    self.resume_spotify()
+
                 self.handle_run_loop()
+
             except KeyboardInterrupt:
                 logging.warn("Keyboard interrupt: Exiting pikaraoke...")
                 self.running = False
