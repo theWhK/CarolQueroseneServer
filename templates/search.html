@@ -367,6 +367,9 @@
             </label>
           </div>
           {% endif %}
+          {% else %}
+          <input type="hidden" name="queue" value="on">
+          {% endif %}
           <div class="has-text-right" style="margin-top: 5px">
             <button class="button is-small is-rounded" disabled id="direct-download-button" type="submit">
               {# MSG: Button label for the direct download form's submit button. #}
