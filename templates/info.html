@@ -58,6 +58,16 @@
 {% block content %}
 <hr/>
 
+<div class="has-text-centered">
+  <p>Se o coleguinha quiser entrar, peça para ele entrar em www.carolquerosene.com.br.</p>
+  <p>Na busca, você pode adicionar novas músicas na fila, bem como buscar músicas que já estão na nossa biblioteca.</p>
+  <p>Se tiver alguma dúvida, procure o Will, Ana Milani ou Bitu Juliani.</p>
+  <p>Divirta-se!</p>
+</div>
+
+{% if admin %}
+<hr/>
+
 <div class="has-text-centered">  
   <p>
     {# MSG: Label which appears before a url which links to the current page. #}
@@ -76,7 +86,7 @@
   {% endif %}
   </div>
 
-{% if admin %}
+
 <hr />
 
 {# MSG: Header of the information section about the computer running Pikaraoke. #}
