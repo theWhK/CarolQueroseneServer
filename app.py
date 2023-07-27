@@ -93,11 +93,11 @@ def auth():
         expire_date = expire_date + datetime.timedelta(days=90)
         resp.set_cookie('admin', admin_password, expires=expire_date)
         # MSG: Message shown after logging in as admin successfully
-        flash(_("Admin mode granted!"), "is-success")
+        flash("Olá, Aninha ou Bitu. Aproveite a administração.", "is-success")
     else:
         resp = make_response(redirect(url_for('login')))
         # MSG: Message shown after failing to login as admin
-        flash(_("Incorrect admin password!"), "is-danger")
+        flash("Senha incorreta. Esse incidente será reportado. Não insista.", "is-danger")
     return resp
 
 @app.route("/login")
