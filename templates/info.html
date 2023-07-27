@@ -172,13 +172,13 @@
 {% if admin_enabled %}
   {# MSG: Link which will log out the user from admin mode. #}
   <p>{% trans logout_url=url_for('logout') -%}
-    Disable admin mode: <a href="/logout">Log out</a>
+    Desativar modo de administração: <a href="/logout">Log out</a>
   {%- endtrans %}</p>
 {% endif %}
 {% else %} {# from if admin #}
   {# MSG: Link which will let the user log into admin mode. #}
   <p>{% trans login_url=url_for('login') %}
-    Enable admin mode: <a href="/login">Log in</a>
+    Habilitar modo de administração: <a href="/login">Log in</a>
   {% endtrans %}</p>
 {% endif %}
 
