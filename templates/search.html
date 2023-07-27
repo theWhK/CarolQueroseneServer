@@ -366,8 +366,6 @@
               Adicionar à fila de reprodução depois de baixar
             </label>
           </div>
-          {% else %}
-          <input type="hidden" name="queue" value="on">
           {% endif %}
           <div class="has-text-right" style="margin-top: 5px">
             <button class="button is-small is-rounded" disabled id="direct-download-button" type="submit">
@@ -426,6 +424,7 @@
         {% trans %}Link:{% endtrans %} <a target="_blank" id='youtube-link' href=''></a> 
       </p>
       <p class="has-text-centered-mobile"> <img id='youtube-thumb'> </p>
+      {% if admin %}
       <div class="field">
         <label class="checkbox">
           <input type="checkbox" checked name="queue">          
@@ -433,6 +432,9 @@
           {% trans %}Add to queue once downloaded{% endtrans %}
         </label>
       </div>
+      {% else %}
+      <input type="hidden" name="queue" value="on">
+      {% endif %}
       <div class="field">
         <button class="button is-success is-rounded" id="download-button" type="submit">
           {# MSG: Label on the button which starts the download of the selected song. #}
