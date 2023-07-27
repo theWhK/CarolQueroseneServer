@@ -67,7 +67,7 @@
       var currentUser = Cookies.get("user");
 
       if (currentUser) {
-        $("#current-user span").text(currentUser + " - Alterar nome")
+        $("#current-user span").text("Olá " + currentUser + "! (clique para alterar)")
         $("#current-user").removeClass("is-hidden");
       };
 
