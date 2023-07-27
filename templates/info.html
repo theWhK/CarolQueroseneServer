@@ -163,8 +163,6 @@
   {% endif %}
 </ul>
 
-<hr />
-
 {% if is_pi %}
   {# MSG: Title for section containing a few other options on the Info page. #}
   <h1>{% trans %}Other{% endtrans %}</h1>
@@ -183,12 +181,14 @@
 <hr/>
 {% if admin_enabled %}
   {# MSG: Link which will log out the user from admin mode. #}
+  <hr />
   <p>{% trans logout_url=url_for('logout') -%}
     Desativar modo de administração: <a href="/logout">Log out</a>
   {%- endtrans %}</p>
 {% endif %}
 {% else %} {# from if admin #}
   {# MSG: Link which will let the user log into admin mode. #}
+  <hr />
   <p>{% trans login_url=url_for('login') %}
     Habilitar modo de administração: <a href="/login">Log in</a>
   {% endtrans %}</p>
