@@ -76,4 +76,6 @@
   border-radius: 0.4em;
   background-size: cover;
   background-position: center;
+  height: 45px;
+  margin-bottom: 5px;
 }
