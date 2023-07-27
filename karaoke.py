@@ -469,11 +469,18 @@ class Karaoke:
     
     def resume_spotify(self):
         logging.info("Resuming Spotify playback")
-        self.spotipy_client.start_playback()
+        try:
+            self.spotipy_client.start_playback()
+        except Exception as e:
+            logging.error("Error resuming Spotify playback: " + str(e))
+
 
     def pause_spotify(self):
         logging.info("Pausing Spotify playback")
-        self.spotipy_client.pause_playback()
+        try:
+            self.spotipy_client.pause_playback()
+        except Exception as e:
+            logging.error("Error pausing Spotify playback: " + str(e))
 
     def download_video(self, video_url, enqueue=False, user="Pikaraoke"):
         logging.info("Downloading video: " + video_url)
