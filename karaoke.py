@@ -46,6 +46,7 @@ class Karaoke:
     loop_interval = 500  # in milliseconds
     default_logo_path = os.path.join(base_path, "logo.png")
     spotipy_client = None
+    spotify_is_playing = False
 
     def __init__(
         self,
@@ -103,8 +104,10 @@ class Karaoke:
                                                                             client_secret=os.environ.get('SPOTIFY_WEB_API_CLIENT_SECRET'),
                                                                             redirect_uri="http://localhost",
                                                                             scope="user-modify-playback-state"))
+            self.spotify_is_playing = False
         else:
             self.spotipy_client = None
+            self.spotify_is_playing = False
 
         logging.basicConfig(
             format="[%(asctime)s] %(levelname)s: %(message)s",
@@ -468,17 +471,20 @@ class Karaoke:
         return self.get_search_results(songTitle + " karaoke")
     
     def resume_spotify(self):
-        logging.info("Resuming Spotify playback")
-        try:
-            self.spotipy_client.start_playback()
-        except Exception as e:
-            logging.error("Error resuming Spotify playback: " + str(e))
+        if self.spotify_is_playing:
+            logging.info("Resuming Spotify playback")
+            try:
+                self.spotipy_client.start_playback()
+                self.spotify_is_playing = True
+            except Exception as e:
+                logging.error("Error resuming Spotify playback: " + str(e))
 
 
     def pause_spotify(self):
         logging.info("Pausing Spotify playback")
         try:
             self.spotipy_client.pause_playback()
+            self.spotify_is_playing = False
         except Exception as e:
             logging.error("Error pausing Spotify playback: " + str(e))
 
