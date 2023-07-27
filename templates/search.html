@@ -346,29 +346,31 @@
           <input type="checkbox" id="include-non-karaoke" name="include-non-karaoke">
           {# MSG: Checkbox label which enables matching songs which are not karaoke versions
              (i.e. the songs still have a singer and are not just instrumentals.) #}
-          {% trans %}Include non-karaoke matches{% endtrans %}
+          Adicionar resultados não-karaokê (caso não ache a versão karaokê, tente buscar por essa opção)
         </label>
       </div>
       <hr>
       <div class="control">
         <div class="label">
           {# MSG: Label for an input which takes a YouTube url directly instead of searching titles. #}
-          {% trans %}Direct download YouTube url:{% endtrans %}
+          Inserir URL do YouTube para download direto
         </div>
         <form  action="{{ url_for('download') }}" method="post">
           <input class="input" id="direct-download-url" type="text" name="song-url" />
           <input class="song-added-by" type="hidden" name="song-added-by" />
+          {% if admin %}
           <div class="field" style="margin-top: 5px">
             <label class="checkbox">
               <input type="checkbox" checked name="queue">
               {# MSG: Checkbox label which marks the song to be added to the queue after it finishes downloading. #}
-              {% trans %}Add to queue once downloaded{% endtrans %}
+              Adicionar à fila de reprodução depois de baixar
             </label>
           </div>
+          {% endif %}
           <div class="has-text-right" style="margin-top: 5px">
             <button class="button is-small is-rounded" disabled id="direct-download-button" type="submit">
               {# MSG: Button label for the direct download form's submit button. #}
-              {% trans %}Download{% endtrans %}
+              Baixar
             </button>
           </div>
         </form>

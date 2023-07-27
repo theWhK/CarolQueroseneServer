@@ -346,13 +346,11 @@ def download():
     t.start()
 
     flash_message = (
-        "Carregamento iniciado: '"
-        + song
-        + "'. Aguarde um tempo para que o download conclua. "
+        "Vídeo sendo baixando. "
     )
 
     if queue:
-        flash_message += "A música será adicionada na fila."
+        flash_message += "A música será adicionada na fila para tocar."
     else:
         flash_message += 'A música será inserida na lista de "Músicas Disponíveis".'
     flash(flash_message, "is-info")
