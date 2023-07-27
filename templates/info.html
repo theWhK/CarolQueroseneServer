@@ -76,6 +76,7 @@
   {% endif %}
   </div>
 
+{% if admin %}
 <hr />
 
 {# MSG: Header of the information section about the computer running Pikaraoke. #}
@@ -95,7 +96,6 @@
 
 <hr />
 
-{% if admin %}
 {# MSG: Title of the updates section. #}
 <h1>{% trans %}Updates{% endtrans %}</h1>
 {# MSG: Label before a link which forces Pikaraoke to rescan and pick up any new songs. #}
@@ -172,13 +172,13 @@
 {% if admin_enabled %}
   {# MSG: Link which will log out the user from admin mode. #}
   <p>{% trans logout_url=url_for('logout') -%}
-    Disable admin mode: <a href="{{ logout_url }}">Log out</a>
+    Disable admin mode: <a href="/logout">Log out</a>
   {%- endtrans %}</p>
 {% endif %}
 {% else %} {# from if admin #}
   {# MSG: Link which will let the user log into admin mode. #}
   <p>{% trans login_url=url_for('login') %}
-    Enable admin mode: <a href="{{ login_url }}">Log in</a>
+    Enable admin mode: <a href="/login">Log in</a>
   {% endtrans %}</p>
 {% endif %}
 
