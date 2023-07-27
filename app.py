@@ -108,7 +108,7 @@ def login():
 def logout():
     resp = make_response(redirect('/'))
     resp.set_cookie('admin', '')
-    flash("Logged out of admin mode!", "is-success")
+    flash("Modo de administração desativado com sucesso.", "is-success")
     return resp
 
 @app.route("/nowplaying")
