@@ -159,9 +159,9 @@ def add_random():
     amount = int(request.args["amount"])
     rc = k.queue_add_random(amount)
     if rc:
-        flash("Added %s random tracks" % amount, "is-success")
+        flash("Adicionado %s músicas aleatórias" % amount, "is-success")
     else:
-        flash("Ran out of songs!", "is-warning")
+        flash("Acabaram-se as músicas!", "is-warning")
     return redirect(url_for("queue"))
 
 
@@ -170,7 +170,7 @@ def queue_edit():
     action = request.args["action"]
     if action == "clear":
         k.queue_clear()
-        flash("Cleared the queue!", "is-warning")
+        flash("Fila limpa e música atual parada.", "is-warning")
         return redirect(url_for("queue"))
     else:
         song = request.args["song"]
@@ -178,19 +178,19 @@ def queue_edit():
         if action == "down":
             result = k.queue_edit(song, "down")
             if result:
-                flash("Moved down in queue: " + song, "is-success")
+                flash("Movido para baixo na fila: " + song, "is-success")
             else:
                 flash("Error moving down in queue: " + song, "is-danger")
         elif action == "up":
             result = k.queue_edit(song, "up")
             if result:
-                flash("Moved up in queue: " + song, "is-success")
+                flash("MMovido para cima na fila: " + song, "is-success")
             else:
                 flash("Error moving up in queue: " + song, "is-danger")
         elif action == "delete":
             result = k.queue_edit(song, "delete")
             if result:
-                flash("Deleted from queue: " + song, "is-success")
+                flash("Apagado da fila: " + song, "is-success")
             else:
                 flash("Error deleting from queue: " + song, "is-danger")
     return redirect(url_for("queue"))
