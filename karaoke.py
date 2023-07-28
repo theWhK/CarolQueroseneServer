@@ -477,8 +477,7 @@ class Karaoke:
                 logging.error("Error getting Spotify playback state: " + str(e))
     
     def resume_spotify(self):
-        loop = asyncio.get_event_loop()
-        loop.run_in_executor(None, self.resume_spotify_async)
+        asyncio.run(self.resume_spotify_async)
 
     async def resume_spotify_async(self):
         if self.control_spotify_playback:
@@ -492,8 +491,7 @@ class Karaoke:
                     logging.error("Error resuming Spotify playback: " + str(e))
 
     def pause_spotify(self, force_remote_check=False):
-        loop = asyncio.get_event_loop()
-        loop.run_in_executor(None, self.pause_spotify_async, force_remote_check)
+        asyncio.run(self.pause_spotify_async, force_remote_check)
 
     async def pause_spotify_async(self, force_remote_check=False):
         if self.control_spotify_playback:
