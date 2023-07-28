@@ -67,7 +67,7 @@
       var currentUser = Cookies.get("user");
 
       if (currentUser) {
-        $("#current-user span").text("Olá " + currentUser + "! (clique para alterar)")
+        $("#current-user span").text("Olá " + currentUser + "!")
         $("#current-user").removeClass("is-hidden");
       };
 
@@ -168,7 +168,7 @@
           <a id="browse" class="navbar-item" href="{{ url_for('browse') }}">
             <i class="icon icon-folder-open-empty" title="Browse"></i>
             {# MSG: Navigation link for the page where the user can add existing songs to the queue. #}
-            <span>Navegar músicas baixadas</span>
+            <span>Estoque</span>
           </a>
           {% endif %}
           <a id="current-user" class="navbar-item is-hidden" href="#">
