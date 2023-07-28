@@ -46,6 +46,7 @@ class Karaoke:
     loop_interval = 500  # in milliseconds
     default_logo_path = os.path.join(base_path, "logo.png")
     spotipy_client = None
+    spotify_is_playing = False
 
     def __init__(
         self,
@@ -467,10 +468,18 @@ class Karaoke:
     def get_karaoke_search_results(self, songTitle):
         return self.get_search_results(songTitle + " karaoke")
     
-    def resume_spotify(self):
+    async def get_spotify_playing_state(self):
         if self.control_spotify_playback:
-            logging.info(str(self.spotipy_client.currently_playing()))
-            if not self.spotipy_client.currently_playing():
+            try:
+                self.spotify_is_playing = await self.spotipy_client.current_playback().is_playing
+            except Exception as e:
+                logging.error("Error getting Spotify playback state: " + str(e))
+    
+    async def resume_spotify(self):
+        if self.control_spotify_playback:
+            await self.get_spotify_playing_state()
+
+            if not self.spotify_is_playing:
                 logging.info("Resuming Spotify playback")
                 try:
                     self.spotipy_client.start_playback()
@@ -478,10 +487,14 @@ class Karaoke:
                     logging.error("Error resuming Spotify playback: " + str(e))
 
 
-    def pause_spotify(self):
+    async def pause_spotify(self, force_remote_check=False):
         if self.control_spotify_playback:
-            logging.info(str(self.spotipy_client.currently_playing()))
-            if self.spotipy_client.currently_playing():
+            if not self.spotify_is_playing and not force_remote_check:
+                return
+
+            await self.get_spotify_playing_state()
+
+            if self.spotify_is_playing:
                 logging.info("Pausing Spotify playback")
                 try:
                     self.spotipy_client.pause_playback()
@@ -599,7 +612,7 @@ class Karaoke:
             self.omxclient.play_file(file_path)
 
         if self.control_spotify_playback:
-            self.pause_spotify()
+            self.pause_spotify(force_remote_check=True)
 
         self.is_paused = False
         self.render_splash_screen()  # remove old previous track
@@ -739,7 +752,7 @@ class Karaoke:
                 if self.is_paused:
                     self.resume_spotify()
                 else:
-                    self.pause_spotify()
+                    self.pause_spotify(force_remote_check=True)
 
             return True
         else:
@@ -776,7 +789,7 @@ class Karaoke:
                 self.omxclient.restart()
             self.is_paused = False
             if self.control_spotify_playback:
-                self.pause_spotify()
+                self.pause_spotify(force_remote_check=True)
             return True
         else:
             logging.warning("Tried to restart, but no file is playing!")
