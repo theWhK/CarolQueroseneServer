@@ -471,6 +471,7 @@ class Karaoke:
     
     async def get_spotify_playing_state(self):
         if self.control_spotify_playback:
+            logging.info(str(self.spotipy_client.currently_playing()))
             try:
                 self.spotify_is_playing = await self.spotipy_client.currently_playing().is_playing
             except Exception as e:
