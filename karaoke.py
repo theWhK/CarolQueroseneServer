@@ -1,3 +1,4 @@
+import asyncio
 import contextlib
 import glob
 import json
@@ -475,7 +476,11 @@ class Karaoke:
             except Exception as e:
                 logging.error("Error getting Spotify playback state: " + str(e))
     
-    async def resume_spotify(self):
+    def resume_spotify(self):
+        loop = asyncio.get_event_loop()
+        loop.run_in_executor(None, self.resume_spotify_async)
+
+    async def resume_spotify_async(self):
         if self.control_spotify_playback:
             await self.get_spotify_playing_state()
 
@@ -486,8 +491,11 @@ class Karaoke:
                 except Exception as e:
                     logging.error("Error resuming Spotify playback: " + str(e))
 
+    def pause_spotify(self, force_remote_check=False):
+        loop = asyncio.get_event_loop()
+        loop.run_in_executor(None, self.pause_spotify_async, force_remote_check)
 
-    async def pause_spotify(self, force_remote_check=False):
+    async def pause_spotify_async(self, force_remote_check=False):
         if self.control_spotify_playback:
             if not self.spotify_is_playing and not force_remote_check:
                 return
