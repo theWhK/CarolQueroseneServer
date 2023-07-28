@@ -101,7 +101,7 @@ class Karaoke:
         if self.control_spotify_playback:
             self.spotipy_client = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get('SPOTIFY_WEB_API_CLIENT_ID'),
                                                                             client_secret=os.environ.get('SPOTIFY_WEB_API_CLIENT_SECRET'),
-                                                                            redirect_uri="http://localhost",
+                                                                            redirect_uri="http://localhost:8081",
                                                                             scope="user-read-currently-playing user-modify-playback-state"))
         else:
             self.spotipy_client = None
