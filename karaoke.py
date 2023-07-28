@@ -179,6 +179,8 @@ class Karaoke:
 
         self.url = "http://%s:%s" % (self.ip, self.port)
 
+        logging.info("Starting Pikaraoke server on: " + self.url)
+
         # get songs from download_path
         self.get_available_songs()
 
