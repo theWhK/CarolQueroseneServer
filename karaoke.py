@@ -469,6 +469,7 @@ class Karaoke:
     
     def resume_spotify(self):
         if self.control_spotify_playback:
+            logging.info(str(self.spotipy_client.currently_playing()))
             if not self.spotipy_client.currently_playing():
                 logging.info("Resuming Spotify playback")
                 try:
@@ -479,6 +480,7 @@ class Karaoke:
 
     def pause_spotify(self):
         if self.control_spotify_playback:
+            logging.info(str(self.spotipy_client.currently_playing()))
             if self.spotipy_client.currently_playing():
                 logging.info("Pausing Spotify playback")
                 try:
