@@ -1,4 +1,3 @@
-import asyncio
 import contextlib
 import glob
 import json
@@ -469,20 +468,16 @@ class Karaoke:
     def get_karaoke_search_results(self, songTitle):
         return self.get_search_results(songTitle + " karaoke")
     
-    async def get_spotify_playing_state(self):
+    def get_spotify_playing_state(self):
         if self.control_spotify_playback:
             try:
-                currently_playing = await self.spotipy_client.currently_playing()
-                self.spotify_is_playing = currently_playing["is_playing"]
+                self.spotify_is_playing = self.spotipy_client.currently_playing()["is_playing"]
             except Exception as e:
                 logging.error("Error getting Spotify playback state: " + str(e))
-    
-    def resume_spotify(self):
-        asyncio.run(self.resume_spotify_async())
 
-    async def resume_spotify_async(self):
+    def resume_spotify(self):
         if self.control_spotify_playback:
-            await self.get_spotify_playing_state()
+            self.get_spotify_playing_state()
 
             if not self.spotify_is_playing:
                 logging.info("Resuming Spotify playback")
@@ -492,14 +487,11 @@ class Karaoke:
                     logging.error("Error resuming Spotify playback: " + str(e))
 
     def pause_spotify(self, force_remote_check=False):
-        asyncio.run(self.pause_spotify_async(force_remote_check))
-
-    async def pause_spotify_async(self, force_remote_check=False):
         if self.control_spotify_playback:
             if not self.spotify_is_playing and not force_remote_check:
                 return
 
-            await self.get_spotify_playing_state()
+            self.get_spotify_playing_state()
 
             if self.spotify_is_playing:
                 logging.info("Pausing Spotify playback")
