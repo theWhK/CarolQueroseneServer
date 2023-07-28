@@ -46,7 +46,6 @@ class Karaoke:
     loop_interval = 500  # in milliseconds
     default_logo_path = os.path.join(base_path, "logo.png")
     spotipy_client = None
-    spotify_is_playing = False
 
     def __init__(
         self,
@@ -103,11 +102,9 @@ class Karaoke:
             self.spotipy_client = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get('SPOTIFY_WEB_API_CLIENT_ID'),
                                                                             client_secret=os.environ.get('SPOTIFY_WEB_API_CLIENT_SECRET'),
                                                                             redirect_uri="http://localhost",
-                                                                            scope="user-modify-playback-state"))
-            self.spotify_is_playing = False
+                                                                            scope="user-read-currently-playing user-modify-playback-state"))
         else:
             self.spotipy_client = None
-            self.spotify_is_playing = False
 
         logging.basicConfig(
             format="[%(asctime)s] %(levelname)s: %(message)s",
@@ -470,25 +467,24 @@ class Karaoke:
     def get_karaoke_search_results(self, songTitle):
         return self.get_search_results(songTitle + " karaoke")
     
-    def resume_spotify(self, bypass_check=False):
+    def resume_spotify(self):
         if self.control_spotify_playback:
-            if (not self.spotify_is_playing) or (bypass_check):
+            if not self.spotipy_client.currently_playing():
                 logging.info("Resuming Spotify playback")
                 try:
                     self.spotipy_client.start_playback()
-                    self.spotify_is_playing = True
                 except Exception as e:
                     logging.error("Error resuming Spotify playback: " + str(e))
 
 
     def pause_spotify(self):
         if self.control_spotify_playback:
-            logging.info("Pausing Spotify playback")
-            try:
-                self.spotipy_client.pause_playback()
-                self.spotify_is_playing = False
-            except Exception as e:
-                logging.error("Error pausing Spotify playback: " + str(e))
+            if self.spotipy_client.currently_playing():
+                logging.info("Pausing Spotify playback")
+                try:
+                    self.spotipy_client.pause_playback()
+                except Exception as e:
+                    logging.error("Error pausing Spotify playback: " + str(e))
 
     def download_video(self, video_url, enqueue=False, user="Pikaraoke"):
         logging.info("Downloading video: " + video_url)
@@ -828,7 +824,7 @@ class Karaoke:
         self.running = True
 
         if self.control_spotify_playback:
-            self.resume_spotify(bypass_check=True)
+            self.resume_spotify()
 
         while self.running:
             try:
